@@ -1,5 +1,12 @@
 // Place your settings in this file to overwrite default and user settings.
 {
+
+    "[cpp]": {
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+    },
+    "editor.formatOnSave": true,
+    "clangd.enable": true,
+    // "C_Cpp.errorSquiggles": "disabled",
     // Unofficially, QMK uses spaces for indentation
     "editor.insertSpaces": true,
     // Configure glob patterns for excluding files and folders.
