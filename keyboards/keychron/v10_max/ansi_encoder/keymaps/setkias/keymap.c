@@ -146,7 +146,7 @@ Temp:
 #define lt_rspc LT(SYMBOLS_R, CUSTOM_LEADER)
 
 // Right Alt: Tap for +, Double tap for -
-#define td_ralt TD(TD_RALT_PLUS_MINUS)
+#define td_ralt TD(TD_RALT_PLUS_MINUS) // Not used. Just an example
 
 // Tab: Tap for esc, Double tap for caps lock, hold for nav
 // #define td_esc_caps TD(TD_ESC_CAPS)
@@ -169,7 +169,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         MC_2,       KC_TAB,             KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,            KC_PGDN,
         CUSTOM_LEADER,       MT(MOD_LCTL, KC_CAPS),        KC_A,     KC_S,     KC_D,     KC_F,     KC_G,      KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            KC_ENT,             KC_HOME,
         KC_F13,       SC_LSPO,            KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,      KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  SC_RSPC,  KC_UP,
-        QK_LEAD,    KC_LCTL,  KC_LWIN,            KC_LALT,  LT(SYMBOLS_L, KC_SPC),  mo_wn_fn,            lt_rspc,            MT(MOD_RCTL, KC_ENTER),  KC_LEFT,  KC_DOWN,  KC_RGHT),
+        QK_LEAD,    KC_LCTL,  KC_LWIN,            KC_LALT,  LT(SYMBOLS_L, KC_SPC),  mo_wn_fn,            LT(SYMBOLS_R, KC_ENTER),            MT(MOD_RCTL, CUSTOM_LEADER),  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [WIN_FN] = LAYOUT_ansi_89(
         RGB_TOG,    _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FILE,  _______,   _______,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,   KC_VOLU,  _______,            _______,
@@ -265,22 +265,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static bool is_alt_active  = false; // Track if Alt is activA
     static bool is_ctrl_active = false;
     switch (keycode) {
-        case LT(SYMBOLS_R, CUSTOM_LEADER):
+        case MT(MOD_RCTL, CUSTOM_LEADER):
             if (record->event.pressed) {
                 if (record->tap.count == 1) {
                     // Tap: Start leader key functionality
                     leader_start();
-                } else {
-                    // Hold: Activate SYMBOLS_R layer
-                    layer_on(SYMBOLS_R);
-                }
-            } else {
-                // Key released: Deactivate SYMBOLS_R layer
-                if (!record->tap.count) {
-                    layer_off(SYMBOLS_R);
-                }
+                    return false;
+                };
             }
-            return false; // Skip default processing for LT()
+            return true; // Further MT() processing
         case LT(SYMBOLS_L, KC_SPC):
             if (!record->event.pressed) { // Release
                 if (is_alt_active) {
