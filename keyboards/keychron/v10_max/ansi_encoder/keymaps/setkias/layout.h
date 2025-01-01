@@ -111,3 +111,5 @@ const uint16_t /*PROGMEM*/ ex[][MATRIX_ROWS][MATRIX_COLS] = {
         __M4___,    __LSFT_,  ___Z___,  ___X___,  ___C___,  ___V___,  ___B___,     ___B___,  ___N___,  ___M___,  __COMM_,  __DOT__,  __SLSH_,  __RSFT_,           __UP___,  
         __M5___,    __LCTL_,  __LGUI_,  __LALT_,  __LSPC___________,  __LFN__,               __RSPC___________,  __RALT_,                               __LEFT_,  __DOWN_,  __RGHT_),
 };
+
+// An arr
