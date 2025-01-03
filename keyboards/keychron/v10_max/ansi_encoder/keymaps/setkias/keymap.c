@@ -43,6 +43,12 @@ enum layers {
     NAV,
 
 };
+// General wise words:
+// http://xahlee.info/kbd/keybinding_index.html
+
+// Thread about combos
+// https://www.reddit.com/r/olkb/comments/s0nhlw/any_disadvantages_to_using_a_lot_of_combos/
+
 // tweakers
 // https://gathering.tweakers.net/forum/list_messages/1685003
 
@@ -58,17 +64,58 @@ enum layers {
 // Custom one shot layer
 // https://github.com/rafaelromao/keyboards/blob/4b23eb99b35c7570394d739dd0fdf6749fd29ed1/src/qmk/users/rafaelromao/features/custom_oneshot.c#L155
 
+// clang-format off
 // COMBOS
-const uint16_t PROGMEM ls_combo[]   = {KC_S, KC_D, COMBO_END}; // sd for LSHIFT
-const uint16_t PROGMEM rs_combo[]   = {KC_K, KC_L, COMBO_END}; // kl for RSHIFT
-const uint16_t PROGMEM esc_combo[]  = {KC_J, KC_K, COMBO_END}; // jk for ESC
-const uint16_t PROGMEM nav_combo[]  = {KC_S, KC_F, COMBO_END}; // SF for [NAV]
-const uint16_t PROGMEM num_combo[]  = {KC_A, KC_D, COMBO_END}; // AD for [NUMPAD]
-const uint16_t PROGMEM f_combo[]    = {KC_F, KC_K, COMBO_END}; // FK for [FUNCTION]
-combo_t                key_combos[] = {
-    COMBO(ls_combo, OSM(MOD_LSFT)), COMBO(rs_combo, OSM(MOD_RSFT)), COMBO(esc_combo, KC_ESC), COMBO(nav_combo, TT(NAV)), COMBO(num_combo, TT(NUMPAD)), COMBO(f_combo, OSL(FUNCTION)),
+// SINGLE MODIFIER COMBOS
+const uint16_t PROGMEM ls_combo[]    = {KC_S, KC_D, COMBO_END}; // sd for LSHIFT
+const uint16_t PROGMEM rs_combo[]    = {KC_K, KC_L, COMBO_END}; // kl for RSHIFT
+const uint16_t PROGMEM lctrl_combo[] = {KC_A, KC_S, COMBO_END}; // as for LCTRL
+const uint16_t PROGMEM rctrl_combo[] = {KC_SEMICOLON, KC_L, COMBO_END}; // ;l for RCTRL
+const uint16_t PROGMEM ralt_combo[]  = {KC_D, KC_F, COMBO_END}; // df for left alt
+const uint16_t PROGMEM lalt_combo[]  = {KC_J, KC_K, COMBO_END}; // jk for right alt
+
+// DUAL MODIFIER COMBOS
+const uint16_t PROGMEM caps_word_combo[] =  {KC_S, KC_L, COMBO_END}; // sl for CW_TOGG
+const uint16_t PROGMEM lctrl_lshift_combo[] = {KC_A, KC_S, KC_D, COMBO_END}; // asd for LCTRL + LSHIFT
+const uint16_t PROGMEM rctrl_rshift_combo[] = {KC_SEMICOLON, KC_L, KC_K, COMBO_END}; // ;lk for RCTRL + RSHIFT
+const uint16_t PROGMEM lctrl_lalt_combo[]   = {KC_A, KC_S, KC_F, COMBO_END}; // asf for LCTRL + LALT
+const uint16_t PROGMEM rctrl_ralt_combo[]   = {KC_SEMICOLON, KC_L, KC_J, COMBO_END}; // ;lj for RCTRL + RALT
+// and last alt shift both left and right
+const uint16_t PROGMEM lalt_lshift_combo[] = {KC_K, KC_D, KC_F, COMBO_END}; // kdf for LALT + LSHIFT
+const uint16_t PROGMEM ralt_rshift_combo[] = {KC_J, KC_K, KC_L, COMBO_END}; // ;lj for RALT + RSHIFT
+
+// TRIPPLET MODIFIER COMBOS
+const uint16_t PROGMEM lctrl_lshift_lalt_combo[] = {KC_A, KC_S, KC_D, KC_F, COMBO_END}; // asdf for LCTRL + LSHIFT + LALT
+const uint16_t PROGMEM rctrl_rshift_ralt_combo[] = {KC_SEMICOLON, KC_L, KC_K, KC_J, COMBO_END}; // ;lkj for RCTRL + RSHIFT + RALT
+
+
+const uint16_t PROGMEM nav_combo[] = {KC_S, KC_F, COMBO_END}; // SF for [NAV]
+const uint16_t PROGMEM num_combo[] = {KC_A, KC_D, COMBO_END}; // AD for [NUMPAD]
+const uint16_t PROGMEM f_combo[] = {KC_F, KC_K, COMBO_END}; // FK for [FUNCTION]
+const uint16_t PROGMEM enter_combo[] = {KC_D, KC_K, COMBO_END}; // DK for Enter
+
+const uint16_t PROGMEM test_combo[] = {KC_Z, KC_X, KC_C, COMBO_END}; // ZXC for test
+
+combo_t key_combos[] = {
+    COMBO(caps_word_combo, CW_TOGG),
+    COMBO(ls_combo, KC_LSFT), COMBO(rs_combo, KC_RSFT),
+    // COMBO(esc_combo, KC_ESC),
+    COMBO(nav_combo, TT(NAV)), COMBO(num_combo, TT(NUMPAD)),
+    COMBO(f_combo, OSL(FUNCTION)), COMBO(enter_combo, KC_ENT),
+
+    COMBO(lctrl_combo, KC_LCTL), COMBO(rctrl_combo, KC_RCTL), COMBO(ralt_combo, KC_RALT), COMBO(lalt_combo, KC_LALT),
+
+    COMBO(lctrl_lshift_combo, LCTL(KC_LSFT)), COMBO(rctrl_rshift_combo, RCTL(KC_RSFT)),     
+    COMBO(lctrl_lalt_combo, LCTL(KC_LALT)), COMBO(rctrl_ralt_combo, RCTL(KC_RALT)),
+
+    COMBO(lalt_lshift_combo, LALT(KC_LSFT)), COMBO(ralt_rshift_combo, RALT(KC_RSFT)),
+
+    COMBO(lctrl_lshift_lalt_combo, LCTL(LSFT(KC_LALT))), COMBO(rctrl_rshift_ralt_combo, RCTL(RSFT(KC_RALT))),
+
+    COMBO(test_combo, KC_F1),
     // keycodes with modifiers are possible too!
 };
+// clang-format on
 
 void leader_end_user(void) {
     if (leader_sequence_one_key(KC_D)) {
@@ -99,28 +146,16 @@ void leader_end_user(void) {
     }
 }
 
-// TAP DANCE
-enum {
-    // TD_ESC_CAPS = 0,
-    TD_RALT_PLUS_MINUS, // XXX imperfect
-};
-
-// Tap Dance Definitions
-tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for Esc, twice for Caps Lock
-    // [TD_ESC_CAPS]        = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_CAPS),
-    [TD_RALT_PLUS_MINUS] = ACTION_TAP_DANCE_DOUBLE(KC_PLUS, KC_MINS)};
-
 /* ideas
 TODO:
+exchange shift combo with symbols-r and -l
+
+change combo OSM(MOD_LSFT) to into simple shift
+I don't think i can do shift + function key
+we have numpad on symbols_l + capslock (besides  a + d)
 re-enable <leader> (now right alt does one shot shift)
-Perhaps #define LEADER_KEY_STRICT_KEY_PROCESSING might allow us to use QK_LEAD in LT and MO
-switch enter and leader
-ins
-del?
-ctrl-larrow
-ctrr-rarrow
-nav keys
+Perhaps #define LEADER_KEY_STRICT_KEY_PROCESSING might allow us to use QK_LEAD
+in LT and MO switch enter and leader ins del? ctrl-larrow ctrr-rarrow nav keys
 Supply
 Caps lock + ' combo => escape
 =====================
@@ -152,8 +187,9 @@ Win tap
 // ins on left space + u
 // home on right space + z
 // end on left space + /
-// pgup on left space + z   // XXX not ideal move to right space + left space (shift for reverse) like alt tab is done
-// pgdn on right space + /  // XXX not ideal
+// pgup on left space + z   // XXX not ideal move to right space + left space
+// (shift for reverse) like alt tab is done pgdn on right space + /  // XXX not
+// ideal
 
 // Combo S F: Toggle NAV layer
 // Combo S D: Esc
@@ -168,15 +204,17 @@ Win tap
 // add d for shift (select text)
 // yank text with y
 // paste with p
+// backspace on i
 // page up and down with left and right space
 
 // Numpad layer:
 // default numpad on uio jkl m,.
 // 0 on right space
 // enter on left space
-// . on left alt and /
+// . on left alt and / and
 // + on ;
 // - on p
+// also a dot on f and a comma on d
 
 // left alt functions as right control (so does enter)
 // ( left shift (or left space + L and left space + ;)
@@ -192,8 +230,8 @@ Win tap
 /// XXX no. and a numpad on A D combo
 /// use for something better
 
-// Left Space: Tap for Space, Hold Symbol layer, Hold + right space for alt + tab
-// #define lt_lspc LT(SYMBOLS_L, C_LSPC)
+// Left Space: Tap for Space, Hold Symbol layer, Hold + right space for alt +
+// tab #define lt_lspc LT(SYMBOLS_L, C_LSPC)
 
 // Right Space: Tap for Leader (we use F13), Hold for symbol layer
 // #define lt_rspc MO(SYMBOLS_R)
@@ -202,9 +240,6 @@ Win tap
 
 // Right Alt: Tap for +, Double tap for -
 // #define td_ralt TD(TD_RALT_PLUS_MINUS) // Not used. Just an example
-
-// Tab: Tap for esc, Double tap for caps lock, hold for nav
-// #define td_esc_caps TD(TD_ESC_CAPS)
 
 // Fn: Hold for Win Fn layer // XXX Do more
 // #define mo_wn_fn MO(WIN_FN)
@@ -222,14 +257,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_MUTE,    KC_ESC,            KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,     KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_INS,             KC_DEL,
         TT(NUMPAD),       KC_GRAVE,             KC_1,     KC_2,     KC_3,     KC_4,     KC_5,      KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,            KC_PGUP,
         DF(TRAIN),       KC_TAB,             KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,            KC_PGDN,
-        CUSTOM_LEADER,       MT(MOD_LCTL, KC_CAPS),        KC_A,     KC_S,     KC_D,     KC_F,     KC_G,      KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            MT(MOD_RCTL, KC_ENT),             KC_HOME,
-        KC_F13,       SC_LSPO,            KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,      KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  SC_RSPC,  KC_UP,
+        CUSTOM_LEADER,       KC_ESC,/*MT(MOD_LCTL, KC_CAPS),*/        KC_A,     KC_S,     KC_D,     KC_F,     KC_G,      KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,            MT(MOD_RCTL, KC_ENT),             KC_HOME,
+        KC_F13,       SC_LSPO,            KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,      KC_ESC,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  SC_RSPC,  KC_UP,
         QK_LEAD,    KC_LCTL,  KC_LWIN,            MT(MOD_LALT, C_CWT),  LT(SYMBOLS_L, KC_SPC),  MO(WIN_FN),            LT(SYMBOLS_R, KC_ENTER),            MT(MOD_RCTL, CUSTOM_LEADER),  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [TRAIN] = LAYOUT_ansi_89( // 40 keys
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, 
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        DF(WIN_BASE), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, _______, _______, _______, _______, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX),
@@ -246,14 +281,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,    _______,   _______,    _______,    _______,    _______,    _______,     _______,    _______,    _______,    _______,    _______,   _______,   _______,   _______,             _______,
         _______,    _______,   _______,     _______,     _______,     _______,     _______,      _______,     _______,     _______,     _______,     _______,     _______,  _______,   _______,            _______,
         _______,    _______,   _______,     _______,     _______,     KC_PERC,     _______,      _______,     KC_INS,     KC_BSPC,     KC_DEL,     KC_PLUS,  _______,  _______,  _______,            _______,
-        _______,    LT(NUMPAD,KC_BSPC),  KC_EXLM,   KC_AT,   KC_LBRC,  KC_RBRC  ,   KC_PERC,   KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_LPRN,  KC_RPRN,  KC_UNDS,            KC_EQL,             _______,
+        _______,    LT(NUMPAD,KC_GRV),  KC_EXLM,   KC_AT,   KC_LBRC,  KC_RBRC  ,   KC_PERC,   KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_LPRN,  KC_RPRN,  KC_UNDS,            KC_EQL,             _______,
         _______,    MT(MOD_LSFT, KC_LBRC),        KC_PGUP,  _______,     _______,     _______,      _______,     _______,     _______,     KC_MINS,  _______,  _______,   KC_END,   KC_RCBR,  _______,
         _______,    _______,  _______,            _______,  _______,  _______,                     C_ATAB,             C_CTAB,                      _______,  _______,  _______),
 
 
      [SYMBOLS_R] = LAYOUT_ansi_89(
         _______,    _______,   _______,    _______,    _______,    _______,    _______,     _______,    _______,    _______,    _______,    _______,   _______,   _______,   _______,             _______,
-        _______,    _______,   _______,     _______,     _______,     _______,     _______,      _______,     _______,     _______,     _______,     _______,     _______,  _______,   _______,            _______,
+        _______,    _______,   _______,     _______,     _______,     _______,     _______,      _______,     _______,     _______,     _______,     _______,     _______,  _______,   EE_CLR,            _______,
         _______,    _______,   _______,     _______,     KC_EQL,     KC_PIPE,     _______,      _______,     _______,     KC_BSLS,     _______,     _______,  _______,  _______,  _______,            _______,
         MC_3,       KC_TILD,  KC_EXLM,  KC_AT,    KC_HASH,  KC_DLR,   KC_PERC,   KC_CIRC,  KC_LCBR,  KC_RCBR,  KC_LPRN,  KC_RPRN,  KC_UNDS,            KC_EQL,           _______,
         _______,    KC_LCBR,            KC_HOME,  _______,     _______,     _______,      _______,     _______,     _______,     _______,  _______,  _______,   KC_PGDN,  KC_RBRC,  _______,
@@ -263,8 +298,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         __VOL__,    __ESC__,  __F1___,  __F2___,  __F3___,  __F4___,  __F5___,  __F6___,               __F7___,  __F8___,  __F9___,  __F10__,  __F11__,  __F12__,  __INS_,            __DEL__,
         __M1___,    __TILD_,  ___1___,  ___2___,  ___3___,  ___4___,  ___5___,  ___6___,               ___7___,  ___8___,  ___9___,  ___0___,  __MINS_,  __EQL__,  __BSPC__________,  __PGUP_, 
         _______,    _______,  _______,  _______,  _______,  _______, _______,   KC_SLASH,  KC_7,  KC_8, KC_9,  KC_MINS,  _______,  _______,  _______,            _______,
-        _______,    _______,  _______, _______,  _______,  KC_DOT,   _______,   KC_ASTR,  KC_4,  KC_5,  KC_6,  KC_PLUS,  KC_ENTER,            _______,            _______,
-        _______,    _______,  _______,  _______,  _______,  _______, _______,  _______, _______,  KC_1,  KC_2,  KC_3,  KC_DOT,  KC_ENTER,  _______,
+        _______,    _______,  _______,  KC_COMM, _______,  KC_DOT,   _______,   KC_ASTR,  KC_4,  KC_5,  KC_6,  KC_PLUS,  KC_ENTER,            _______,            _______,
+        _______,    _______,  _______,  _______,  _______,  _______, _______,  _______, _______,  KC_1,  KC_2,  KC_3,  KC_DOT,  KC_EQUAL,  _______,
         _______,    _______,  _______,            _______,  KC_ENTER,  _______,                       KC_0,            KC_DOT,                      _______,  _______,  _______),
     
 
@@ -280,7 +315,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         __VOL__,    __ESC__,  __F1___,  __F2___,  __F3___,  __F4___,  __F5___,  __F6___,               __F7___,  __F8___,  __F9___,  __F10__,  __F11__,  __F12__,  __INS_,            __DEL__,
 
         __M1___,    __TILD_,  ___1___,  ___2___,  ___3___,  ___4___,  ___5___,  ___6___,               ___7___,  ___8___,  ___9___,  ___0___,  __MINS_,  __EQL__,  __BSPC__________,  __PGUP_, 
-        __M2___,    __TAB__,  ___Q___,  ___W___,  ___E___,  ___R___,  ___T___,               LCTL(KC_INS),  ___U___,  ___I___,  ___O___,  LSFT(KC_INS),  __LABR_,  __RABR_,  __BSLS__________,  __PGDN_,
+        __M2___,    __TAB__,  ___Q___,  ___W___,  ___E___,  ___R___,  ___T___,               LCTL(KC_INS),  ___U___,  KC_BSPC,  ___O___,  LSFT(KC_INS),  __LABR_,  __RABR_,  __BSLS__________,  __PGDN_,
         __M3___,    __CAPS_,  KC_LCTL,  ___S___,  KC_LSFT,  ___F___,  ___G___,               KC_LEFT,  KC_DOWN,  KC_UP,    KC_RIGHT, __SCLN_,  __QUOT_,  __ENTER_________,            __HOME_,
         __M4___,    __LSFT_,  ___Z___,  ___X___,  ___C___,  ___V___,  LCTL(KC_LEFT),     ___B___,  ___N___,  ___M___,  __COMM_,  __DOT__,  __SLSH_,  __RSFT_,           __UP___,  
         __M5___,    __LCTL_,  __LGUI_,  __LALT_,  KC_PGUP,            __LFN__,               KC_PGDN,  __RALT_,                               __LEFT_,  __DOWN_,  __RGHT_),
@@ -371,8 +406,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         //     }
         //     return true;
         case MT(MOD_LALT, C_CWT):
-            if (record->tap.count > 0) {
-                if (record->event.pressed) {
+            if (record->event.pressed) {
+                if (record->tap.count > 0) {
                     caps_word_toggle();
                     return false;
                 }
@@ -432,25 +467,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
-
-void keyboard_post_init_user(void) {}
-
-bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    if (get_highest_layer(layer_state) > 0) {
-        uint8_t layer = get_highest_layer(layer_state);
-
-        for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
-            for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
-                uint8_t index = g_led_config.matrix_co[row][col];
-
-                if (index >= led_min && index < led_max && index != NO_LED && keymap_key_to_keycode(layer, (keypos_t){col, row}) > KC_TRNS) {
-                    rgb_matrix_set_color(index, RGB_GREEN);
-                }
-            }
-        }
-    }
-    return false;
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        case KC_A ... KC_Z:
+            // shift the keys a-z
+            add_weak_mods(MOD_BIT(KC_LSFT));
+            return true;
+        case KC_MINS:
+        case KC_BSPC:
+        case KC_1 ... KC_9:
+        case KC_UNDS:
+            // pass 0-9, - and _ through unmodified
+            return true;
+        default:
+            return false; // Deactivate Caps Word.
+    };
 }
+// void keyboard_post_init_user(void) {}
+
 // bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 //     if (get_highest_layer(layer_state) > 0) {
 //         uint8_t layer = get_highest_layer(layer_state);
@@ -459,7 +493,9 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 //             for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
 //                 uint8_t index = g_led_config.matrix_co[row][col];
 
-//                 if (index >= led_min && index < led_max && index != NO_LED && keymap_key_to_keycode(layer, (keypos_t){col, row}) > KC_TRNS) {
+//                 if (index >= led_min && index < led_max && index != NO_LED &&
+//                     keymap_key_to_keycode(layer, (keypos_t){col, row}) >
+//                         KC_TRNS) {
 //                     rgb_matrix_set_color(index, RGB_GREEN);
 //                 }
 //             }
